@@ -1,0 +1,18 @@
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-utilities.css">
+<script type="text/javascript" src="/js/app.js"></script>
+
+
+<!-- Menghubungkan dengan view template master -->
+@extends('master')
+ 
+<!-- isi bagian judul halaman -->
+<!-- cara penulisan isi section yang pendek -->
+@section('judul_halaman', 'Halaman Home')
+ 
+ 
+<!-- isi bagian konten -->
+<!-- cara penulisan isi section yang panjang -->
+@section('konten')
+ 
+    <p>Ini Adalah Halaman Home</p>
+    <p>Selamat datang {{ $nama }}!</p>
