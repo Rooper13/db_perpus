@@ -70,7 +70,7 @@ li a:hover {
     <td>{{ $data_buku->telfon_pegawai }}</td>
     <td>{{ $data_buku->alamat_pegawai }}</td>
     <td>{{ $data_buku->posisi_peagawai }}</td>
-    <td><a href="#" class="btn btn-secondary">edit</a></td>
+    <td><a href="<?php echo url('/edit') ?>" class="btn btn-secondary">edit</a></td>
     <td><a href="#" class="btn btn-success">delet</a></td>
     <td><a href="#" class="btn btn-primary">tambah pegawai</a></td>
 </tr>

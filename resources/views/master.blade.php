@@ -11,6 +11,7 @@
             <a href="<?php echo url('/tentang') ?>">TENTANG</a>
             |
             <a href="<?php echo url('/kontak') ?>">KONTAK</a>
+            
         </nav>
         <hr/>
         <br/>

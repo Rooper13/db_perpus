@@ -72,7 +72,7 @@ li a:hover {
     <td>{{ $data_buku->penerbit_buku }}</td>
     <td>{{ $data_buku->tahun_buku }}</td>
     <td>{{ $data_buku->jumlah_buku }}</td>
-    <td><a href="#" class="btn btn-success">edit</a></td>
+    <td><a href="<?php echo url('/edit') ?>" class="btn btn-secondary" class="btn btn-success">edit</a></td>
     <td><a href="#" class="btn btn-success">delet</a></td>
     <td><a href="<?php echo url('/tambah') ?>" class="btn btn-primary">tambah Buku</a></td>
 </tr>

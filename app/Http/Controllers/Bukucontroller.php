@@ -52,7 +52,8 @@ class Bukucontroller extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $buku = DB::table('tb_buku')->where('id',$id)->get();
+        return view('blog/edit',['buku' => $buku]);
     }
 
     /**
@@ -60,7 +61,15 @@ class Bukucontroller extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        DB::table('tb_buku')->where('id',$request->id)->update([
+            'nama_buku' => $request->nama,
+            'kategori_buku' => $request->kategori,
+            'penerbit_buku' => $request->penerbit,
+            'tahun_buku' => $request->tahun,
+            'jumlah_buku' => $request->jumlah
+         ]);
+          
+         return redirect('/buku');
     }
 
     /**

@@ -51,17 +51,27 @@ class buku2Controller extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $buku = DB::table('tb_buku')->where('id',$id)->get();
+        return view('blog/edit',['buku' => $buku]);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        DB::table('tb_buku')->where('id',$request->id)->update([
+            'nama_buku' => $request->nama,
+            'kategori_buku' => $request->kategori,
+            'penerbit_buku' => $request->penerbit,
+            'tahun_buku' => $request->tahun,
+            'jumlah_buku' => $request->jumlah
+         ]);
+          
+         return redirect('/buku');
     }
 
     /**

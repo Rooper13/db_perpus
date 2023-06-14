@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +76,31 @@ Route::get('/buku','App\Http\Controllers\BukuController@index');
 Route::get('/buku2','App\Http\Controllers\Buku2Controller@index');
 
 Route::post('/buku/tambah','App\Http\Controllers\BukuController@tambah_buku');
+
+Route::get('/', function () { 
+    if(Auth::check()){
+        return view('blog/home', ['nama' => 'Azzam']);
+    }else{
+        return view('auth/login');
+    }
+});
+
+
+Route::get('/login', function () {
+    return view('auth/login');
+});
+
+Route::post('/authenticate', 'App\Http\Controllers\AuthController@authenticate');
+
+Route::get('/logout', 'App\Http\Controllers\AuthController@logout');
+
+
+Route::get('/buku/edit/{id}','App\Http\Controllers\Buku2Controller@edit');
+
+
+
+Route::post('/buku/update','App\Http\Controllers\Buku2Controller@update');
+
+
+
+
