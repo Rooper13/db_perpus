@@ -90,7 +90,9 @@ Route::get('/login', function () {
     return view('auth/login');
 });
 
-Route::post('/authenticate', 'App\Http\Controllers\AuthController@authenticate');
+
+
+
 
 Route::get('/logout', 'App\Http\Controllers\AuthController@logout');
 
@@ -102,5 +104,6 @@ Route::get('/buku/edit/{id}','App\Http\Controllers\Buku2Controller@edit');
 Route::post('/buku/update','App\Http\Controllers\Buku2Controller@update');
 
 
-
+Route::get('/login', 'App\Http\Controllers\AuthController@index'); 
+Route::post('/login', 'App\Http\Controllers\AuthController@store');
 

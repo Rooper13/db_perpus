@@ -1,0 +1,259 @@
+From fe25ff65ae3ae9560a3833b80771e70933dcea16 Mon Sep 17 00:00:00 2001
+From: ghgeorgiev <ghgeorgiev@2create.studio>
+Date: Tue, 20 Jun 2023 19:29:09 +0300
+Subject: [PATCH] Fix login and BukuController name
+
+---
+ app/Http/Controllers/AuthController.php | 62 ++++++-------------
+ app/Http/Controllers/BukuController.php | 82 +++++++++++++++++++++++++
+ resources/views/auth/login.blade.php    |  8 +--
+ routes/web.php                          | 18 +++---
+ 4 files changed, 114 insertions(+), 56 deletions(-)
+ create mode 100644 app/Http/Controllers/BukuController.php
+
+diff --git a/app/Http/Controllers/AuthController.php b/app/Http/Controllers/AuthController.php
+index 56f9251..daa88b3 100644
+--- a/app/Http/Controllers/AuthController.php
++++ b/app/Http/Controllers/AuthController.php
+@@ -3,62 +3,40 @@
+ namespace App\Http\Controllers;
+ 
+ use Illuminate\Http\Request;
++use Illuminate\Support\Facades\Auth;
++use Illuminate\Validation\ValidationException;
+ 
+ class AuthController extends Controller
+ {
+-    /**
+-     * Display a listing of the resource.
+-     */
+     public function index()
+     {
+-        //
++        return view('auth.login');
+     }
+ 
+-    /**
+-     * Show the form for creating a new resource.
+-     */
+-    public function create()
+-    {
+-        //
+-    }
+-
+-    /**
+-     * Store a newly created resource in storage.
+-     */
+     public function store(Request $request)
+     {
+-        //
+-    }
++        $success = Auth::attempt([
++            'email' => $request->email,
++            'password' => $request->password,
++        ]);
+ 
+-    /**
+-     * Display the specified resource.
+-     */
+-    public function show(string $id)
+-    {
+-        //
+-    }
++        if (! $success) {
++            throw ValidationException::withMessages([
++                'email' => trans('auth.failed'),
++            ]);
++        }
+ 
+-    /**
+-     * Show the form for editing the specified resource.
+-     */
+-    public function edit(string $id)
+-    {
+-        //
+-    }
++        session()->regenerate();
+ 
+-    /**
+-     * Update the specified resource in storage.
+-     */
+-    public function update(Request $request, string $id)
+-    {
+-        //
++        return redirect()->intended('/');
+     }
+ 
+-    /**
+-     * Remove the specified resource from storage.
+-     */
+-    public function destroy(string $id)
++    public function delete()
+     {
+-        //
++        Auth::logout();
++
++        session()->flash();
++
++        return redirect()->intended(route('auth.form'));
+     }
+ }
+diff --git a/app/Http/Controllers/BukuController.php b/app/Http/Controllers/BukuController.php
+new file mode 100644
+index 0000000..0caf278
+--- /dev/null
++++ b/app/Http/Controllers/BukuController.php
+@@ -0,0 +1,82 @@
++<?php
++
++namespace App\Http\Controllers;
++
++use Illuminate\Http\Request;
++use Illuminate\Support\Facades\DB;
++
++class BukuController extends Controller
++{
++    /**
++     * Display a listing of the resource.
++     */
++    public function index()
++    {
++        $buku = DB::table('tb_pegawai')->get();
++        return view('blog/databuku',['buku' => $buku]);
++    }
++
++    /**
++     * Show the form for creating a new resource.
++     */
++    public function tambah_buku(Request $request)
++    {
++        DB::table('tb_buku')->insert([
++            'nama_buku' => $request->nama,
++            'kategori_buku' => $request->kategori,
++            'penerbit_buku' => $request->penerbit,
++            'tahun_buku' => $request->tahun,
++            'jumlah_buku' => $request->jumlah
++          ]);
++          return redirect('/buku');
++    }
++
++    /**
++     * Store a newly created resource in storage.
++     */
++    public function store(Request $request)
++    {
++        //
++    }
++
++    /**
++     * Display the specified resource.
++     */
++    public function show(string $id)
++    {
++        //
++    }
++
++    /**
++     * Show the form for editing the specified resource.
++     */
++    public function edit(string $id)
++    {
++        $buku = DB::table('tb_buku')->where('id',$id)->get();
++        return view('blog/edit',['buku' => $buku]);
++    }
++
++    /**
++     * Update the specified resource in storage.
++     */
++    public function update(Request $request, string $id)
++    {
++        DB::table('tb_buku')->where('id',$request->id)->update([
++            'nama_buku' => $request->nama,
++            'kategori_buku' => $request->kategori,
++            'penerbit_buku' => $request->penerbit,
++            'tahun_buku' => $request->tahun,
++            'jumlah_buku' => $request->jumlah
++         ]);
++
++         return redirect('/buku');
++    }
++
++    /**
++     * Remove the specified resource from storage.
++     */
++    public function destroy(string $id)
++    {
++        //
++    }
++}
+diff --git a/resources/views/auth/login.blade.php b/resources/views/auth/login.blade.php
+index 4ef57d7..6c88b4e 100644
+--- a/resources/views/auth/login.blade.php
++++ b/resources/views/auth/login.blade.php
+@@ -1,15 +1,15 @@
+ @extends('master')
+- 
++
+ @section('halaman', 'login')
+ @section('judul_halaman', 'Halaman Login User')
+- 
++
+ @section('konten')
+ <div class="row justify-content-center">
+     <div class="card" style="width: 18rem;">
+         <div class="card-body">
+             <h5 class="card-title text-center">Login</h5>
+             <h6 class="card-subtitle mb-2 text-center text-muted">Isi dengan lengkap</h6>
+-            <form action="/authenticate" method="post" class="user">
++            <form action="{{ route('auth.login') }}" method="POST" class="user">
+                 @csrf
+                 <div class="form-group mt-3">
+                    <input type="email" name="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukkan email anda" value="{{ old('email') }}">
+@@ -17,7 +17,7 @@
+                 <div class="form-group mt-3">
+              	 <input type="password" name="password" class="form-control" id="exampleInputPassword" placeholder="Password" value="{{ old('password') }}">
+                 </div>
+-               
++
+                 <div class="form-group mt-3 text-center">
+      			  <button type="submit" class="btn btn-primary btn-block">Login</button>
+                 </div>
+diff --git a/routes/web.php b/routes/web.php
+index 92c7926..43120d8 100644
+--- a/routes/web.php
++++ b/routes/web.php
+@@ -77,7 +77,7 @@
+ 
+ Route::post('/buku/tambah','App\Http\Controllers\BukuController@tambah_buku');
+ 
+-Route::get('/', function () { 
++Route::get('/', function () {
+     if(Auth::check()){
+         return view('blog/home', ['nama' => 'Azzam']);
+     }else{
+@@ -85,15 +85,13 @@
+     }
+ });
+ 
+-
+-Route::get('/login', function () {
+-    return view('auth/login');
+-});
+-
+-Route::post('/authenticate', 'App\Http\Controllers\AuthController@authenticate');
+-
+-Route::get('/logout', 'App\Http\Controllers\AuthController@logout');
+-
++Route::controller('App\Http\Controllers\AuthController')
++    ->as('auth.')
++    ->group(function () {
++        Route::get('/login', 'index')->name('form');
++        Route::post('/login', 'store')->name('login');
++        Route::get('/logout', 'delete')->name('logout');
++    });
+ 
+ Route::get('/buku/edit/{id}','App\Http\Controllers\Buku2Controller@edit');
+ 
+-- 
+2.41.0
+
