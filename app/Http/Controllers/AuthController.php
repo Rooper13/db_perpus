@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+
+
 class AuthController extends Controller
 {
     /**
@@ -11,7 +16,7 @@ class AuthController extends Controller
      */
     public function index()
     {
-        //
+        return view('auth.login');
     }
 
     /**
@@ -27,7 +32,20 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $success = Auth::attempt([
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        if (! $success) {
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
+        }
+
+        session()->regenerate();
+
+        return redirect()->intended('/buku');
     }
 
     /**

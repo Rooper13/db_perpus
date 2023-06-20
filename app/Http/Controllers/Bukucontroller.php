@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Bukucontroller extends Controller
+class BukuController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -53,6 +53,7 @@ class Bukucontroller extends Controller
     public function edit(string $id)
     {
         $buku = DB::table('tb_buku')->where('id',$id)->get();
+        dd($buku);
         return view('blog/edit',['buku' => $buku]);
     }
 

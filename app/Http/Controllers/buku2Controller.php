@@ -54,7 +54,7 @@ class buku2Controller extends Controller
     public function edit($id)
     {
         $buku = DB::table('tb_buku')->where('id',$id)->get();
-        return view('blog/edit',['buku' => $buku]);
+        return view('blog/edit',['buku' => ($buku)]);
 
     }
 

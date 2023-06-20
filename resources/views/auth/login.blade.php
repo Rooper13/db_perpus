@@ -9,7 +9,7 @@
         <div class="card-body">
             <h5 class="card-title text-center">Login</h5>
             <h6 class="card-subtitle mb-2 text-center text-muted">Isi dengan lengkap</h6>
-            <form action="/authenticate" method="post" class="user">
+            <form action="/login" method="post" class="user">
                 @csrf
                 <div class="form-group mt-3">
                    <input type="email" name="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukkan email anda" value="{{ old('email') }}">
