@@ -1,0 +1,84 @@
+diff a/app/Http/Controllers/AuthController.php b/app/Http/Controllers/AuthController.php	(rejected hunks)
+@@ -3,62 +3,40 @@
+ namespace App\Http\Controllers;
+ 
+ use Illuminate\Http\Request;
++use Illuminate\Support\Facades\Auth;
++use Illuminate\Validation\ValidationException;
+ 
+ class AuthController extends Controller
+ {
+-    /**
+-     * Display a listing of the resource.
+-     */
+     public function index()
+     {
+-        //
++        return view('auth.login');
+     }
+ 
+-    /**
+-     * Show the form for creating a new resource.
+-     */
+-    public function create()
+-    {
+-        //
+-    }
+-
+-    /**
+-     * Store a newly created resource in storage.
+-     */
+     public function store(Request $request)
+     {
+-        //
+-    }
++        $success = Auth::attempt([
++            'email' => $request->email,
++            'password' => $request->password,
++        ]);
+ 
+-    /**
+-     * Display the specified resource.
+-     */
+-    public function show(string $id)
+-    {
+-        //
+-    }
++        if (! $success) {
++            throw ValidationException::withMessages([
++                'email' => trans('auth.failed'),
++            ]);
++        }
+ 
+-    /**
+-     * Show the form for editing the specified resource.
+-     */
+-    public function edit(string $id)
+-    {
+-        //
+-    }
++        session()->regenerate();
+ 
+-    /**
+-     * Update the specified resource in storage.
+-     */
+-    public function update(Request $request, string $id)
+-    {
+-        //
++        return redirect()->intended('/');
+     }
+ 
+-    /**
+-     * Remove the specified resource from storage.
+-     */
+-    public function destroy(string $id)
++    public function delete()
+     {
+-        //
++        Auth::logout();
++
++        session()->flash();
++
++        return redirect()->intended(route('auth.form'));
+     }
+ }

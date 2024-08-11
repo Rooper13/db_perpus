@@ -42,10 +42,10 @@ li a:hover {
 <body>
 
 <ul>
-<li><a class="active" href="#home">Halaman data pegawai</a></li>
+<li><a class="active" href="#">Halaman data pegawai</a></li>
   <li><a class="active" href="<?php echo url('/home') ?>">Home</a></li>
   <li><a href="<?php echo url('/buku2') ?>">Data buku</a></li>
-  <li><a href="<?php echo url('/kontak') ?>">data pegawai</a></li>
+  <li><a href="<?php echo url('/buku') ?>">data pegawai</a></li>
   <li><a href="<?php echo url('/tentang') ?>">About</a></li>
 
 </ul>
@@ -55,11 +55,11 @@ li a:hover {
     <thead>
     <tr>
         <th>nama</th>
-        <th>penerbit</th>
-        <th>kat</th>
-        <th>tahun</th>
-        <th>action</th>
-        <th>action2</th>
+        <th>tnrp</th>
+        <th>alamt</th>
+        <th>posisi</th>
+        <th>edit</th>
+        <th>delet</th>
         <th>tambah</th>
     </tr>
     </thead>
@@ -70,9 +70,9 @@ li a:hover {
     <td>{{ $data_buku->telfon_pegawai }}</td>
     <td>{{ $data_buku->alamat_pegawai }}</td>
     <td>{{ $data_buku->posisi_peagawai }}</td>
-    <td><a href="<?php echo url('/edit') ?>" class="btn btn-secondary">edit</a></td>
-    <td><a href="#" class="btn btn-success">delet</a></td>
-    <td><a href="#" class="btn btn-primary">tambah pegawai</a></td>
+    <td><a href="/buku/edit2/{{ $data_buku->id }}" class="btn btn-secondary">edit</a></td>
+    <td><a href="/buku/delete2/{{ $data_buku->id }}" class="btn btn-success">delet</a></td>
+    <td><a href="/tambah2" class="btn btn-primary">tambah pegawai</a></td>
 </tr>
 @endforeach
 </tbody>

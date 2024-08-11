@@ -19,14 +19,18 @@ class BukuController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function tambah_buku(Request $request)
+    public function tambah_pegawai(Request $request)
     {
-        DB::table('tb_buku')->insert([
-            'nama_buku' => $request->nama,
-            'kategori_buku' => $request->kategori,
-            'penerbit_buku' => $request->penerbit,
-            'tahun_buku' => $request->tahun,
-            'jumlah_buku' => $request->jumlah
+        $this->validate($request,[
+            'nama' => 'required|min:1|max:65',
+            'telfon' => 'required|min:3|max:50',
+            'alamat'=> 'required',
+        ]);
+        DB::table('tb_pegawai')->insert([
+            'nama_pegawai' => $request->nama,
+            'telfon_pegawai' => $request->telfon,
+            'alamat_pegawai' => $request->alamat,
+            'posisi_peagawai' => $request->posisi,
           ]);
           return redirect('/buku');
     }
@@ -52,22 +56,26 @@ class BukuController extends Controller
      */
     public function edit(string $id)
     {
-        $buku = DB::table('tb_buku')->where('id',$id)->get();
-        dd($buku);
-        return view('blog/edit',['buku' => $buku]);
+        $buku = DB::table('tb_pegawai')->where('id',$id)->get();
+        ($buku);
+        return view('blog/edit2',['buku' => $buku]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        DB::table('tb_buku')->where('id',$request->id)->update([
-            'nama_buku' => $request->nama,
-            'kategori_buku' => $request->kategori,
-            'penerbit_buku' => $request->penerbit,
-            'tahun_buku' => $request->tahun,
-            'jumlah_buku' => $request->jumlah
+        $this->validate($request,[
+            'nama' => 'required|min:1|max:35',
+            'telfon' => 'required|min:3|max:40',
+            'alamat'=> 'required',
+        ]);
+        DB::table('tb_pegawai')->where('id',$request->id)->update([
+            'nama_pegawai' => $request->nama,
+            'telfon_pegawai' => $request->telfon,
+            'alamat_pegawai' => $request->alamat,
+            'posisi_peagawai' => $request->posisi,
          ]);
           
          return redirect('/buku');
@@ -78,6 +86,17 @@ class BukuController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::table('tb_pegawai')->where('id',$id)->delete();
+
+        return redirect('/buku');
+    }
+
+    public function delete(Request $request, $id){
+
+        DB::table('tb_pegawai')->where('id',$id)->delete();
+
+        return redirect('/buku');
+
+
     }
 }

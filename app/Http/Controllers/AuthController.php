@@ -17,6 +17,7 @@ class AuthController extends Controller
     public function index()
     {
         return view('auth.login');
+
     }
 
     /**
@@ -32,6 +33,11 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'email' => 'required|min:10',
+            'password' => 'required|min:8|max:12',
+        ]);
+        
         $success = Auth::attempt([
             'email' => $request->email,
             'password' => $request->password,

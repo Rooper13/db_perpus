@@ -75,9 +75,9 @@ Route::get('/tambah', function () {
 Route::get('/buku','App\Http\Controllers\BukuController@index');
 Route::get('/buku2','App\Http\Controllers\Buku2Controller@index');
 
-Route::post('/buku/tambah','App\Http\Controllers\BukuController@tambah_buku');
+Route::post('/buku/tambah','App\Http\Controllers\Buku2Controller@tambah_buku');
 
-Route::get('/', function () { 
+Route::get('/', function () {
     if(Auth::check()){
         return view('blog/home', ['nama' => 'Azzam']);
     }else{
@@ -107,3 +107,20 @@ Route::post('/buku/update','App\Http\Controllers\Buku2Controller@update');
 Route::get('/login', 'App\Http\Controllers\AuthController@index'); 
 Route::post('/login', 'App\Http\Controllers\AuthController@store');
 
+
+Route::get('/buku/delete/{id}','App\Http\Controllers\BukuController@delete');
+
+Route::get('/buku/delete/{id}','App\Http\Controllers\Buku2Controller@delete');
+
+
+Route::post('/buku/tambah2','App\Http\Controllers\BukuController@tambah_pegawai');
+
+Route::get('/tambah2', function () {
+    return view('blog/tambahpegawai');
+});
+
+Route::get('/buku/edit2/{id}','App\Http\Controllers\BukuController@edit');
+
+Route::post('/buku/update','App\Http\Controllers\BukuController@update');
+
+route::get('/buku/delete2/{id}','App\Http\Controllers\BukuController@delete');

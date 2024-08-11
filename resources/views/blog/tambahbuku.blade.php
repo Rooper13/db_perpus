@@ -34,8 +34,21 @@
                 <label for="jumlah">Jumlah Stok Buku</label>
                 <input type="number" name="jumlah" class="form-control">
             </div>
-        </div>
         <div class="form-group mt-3">
             <input class="btn btn-primary" type="submit" value="Simpan Data">
         </div>
+        </div>
+        @if (count($errors) > 0)
+<div class="alert alert-danger mt-3">
+     @foreach ($errors->all() as $error)
+           - {{ $error }} <br>
+     @endforeach
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger mt-3">
+     {{session('error')}}!
+</div>
+@endif
     </form>

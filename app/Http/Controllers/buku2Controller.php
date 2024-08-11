@@ -21,6 +21,8 @@ class buku2Controller extends Controller
      */
     public function tambah_buku(Request $request)
     {
+        
+        
         DB::table('tb_buku')->insert([
             'nama_buku' => $request->nama,
             'kategori_buku' => $request->kategori,
@@ -63,6 +65,8 @@ class buku2Controller extends Controller
      */
     public function update(Request $request)
     {
+
+
         DB::table('tb_buku')->where('id',$request->id)->update([
             'nama_buku' => $request->nama,
             'kategori_buku' => $request->kategori,
@@ -70,6 +74,8 @@ class buku2Controller extends Controller
             'tahun_buku' => $request->tahun,
             'jumlah_buku' => $request->jumlah
          ]);
+
+        
           
          return redirect('/buku');
     }
@@ -79,6 +85,17 @@ class buku2Controller extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::table('tb_buku')->where('id',$id)->delete();
+
+        return redirect('/buku');
+    }
+
+
+    public function delete(Request $request, $id){
+
+        DB::table('tb_buku')->where('id',$id)->delete();
+
+        return redirect('/buku2');
+
     }
 }

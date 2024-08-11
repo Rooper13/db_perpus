@@ -17,7 +17,20 @@
                 <div class="form-group mt-3">
              	 <input type="password" name="password" class="form-control" id="exampleInputPassword" placeholder="Password" value="{{ old('password') }}">
                 </div>
-               
+                @if (count($errors) > 0)
+<div class="alert alert-danger mt-3">
+     @foreach ($errors->all() as $error)
+           - {{ $error }} <br>
+     @endforeach
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger mt-3">
+     {{session('error')}}!
+</div>
+@endif
+
                 <div class="form-group mt-3 text-center">
      			  <button type="submit" class="btn btn-primary btn-block">Login</button>
                 </div>
