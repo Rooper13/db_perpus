@@ -27,7 +27,7 @@ Route:: get ('blog', function (){
         return view ('about');
 });
 
-Route:: resource('buku',Buku2Controller::class);
+//Route:: resource('buku',Buku2Controller::class);
 
 
 Route::get('/buku4/{nomer}', function($nomer){
@@ -124,3 +124,15 @@ Route::get('/buku/edit2/{id}','App\Http\Controllers\BukuController@edit');
 Route::post('/buku/update','App\Http\Controllers\BukuController@update');
 
 route::get('/buku/delete2/{id}','App\Http\Controllers\BukuController@delete');
+
+route::get('/sesi/logout', 'App\Http\Controllers\AuthController@logout');
+
+
+route::get('/register', 'App\Http\Controllers\AuthController@register');
+
+route::post('/sesi/create', 'App\Http\Controllers\AuthController@create');
+
+Route::get('/profile', function () {
+    return view('blog/profile');
+});
+

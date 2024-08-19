@@ -47,6 +47,7 @@ li a:hover {
   <li><a href="<?php echo url('/buku2') ?>">Data buku</a></li>
   <li><a href="<?php echo url('/buku') ?>">data pegawai</a></li>
   <li><a href="<?php echo url('/tentang') ?>">About</a></li>
+  <li><a href="<?php echo url('/sesi/logout')?>">logout</a></li>
 
 </ul>
 
