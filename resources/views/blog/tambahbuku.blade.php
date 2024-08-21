@@ -1,4 +1,4 @@
-<form action="/buku/tambah" method="post">
+<form action="/buku/tambah" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group mt-3">
             <label for="nama">Nama</label>
@@ -36,6 +36,10 @@
             </div>
         <div class="form-group mt-3">
             <input class="btn btn-primary" type="submit" value="Simpan Data">
+        </div>
+        <div class="form-group mt-3">
+            <label for="nama">Image</label>
+           	<input type="file" class="form-control" name="image" id="image" placeholder="Nama Buku">
         </div>
         </div>
         @if (count($errors) > 0)

@@ -22,15 +22,29 @@ class buku2Controller extends Controller
     public function tambah_buku(Request $request)
     {
         
-        
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $path = 'uploads/tb_buku';
+            $file->move(public_path($path), $filename);
+    
+            $imagePath = $filename;
+        }
+    
+        // Simpan data ke dalam database
         DB::table('tb_buku')->insert([
             'nama_buku' => $request->nama,
             'kategori_buku' => $request->kategori,
             'penerbit_buku' => $request->penerbit,
             'tahun_buku' => $request->tahun,
-            'jumlah_buku' => $request->jumlah
-          ]);
-          return redirect('/buku2');
+            'jumlah_buku' => $request->jumlah,
+            'image' => $imagePath,
+        ]);
+        return redirect('/buku2')->with('success', 'Data buku berhasil disimpan!');
+
     }
 
     /**

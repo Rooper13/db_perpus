@@ -136,3 +136,6 @@ Route::get('/profile', function () {
     return view('blog/profile');
 });
 
+Route::get('/modal', function () {
+    return view('blog/modal1');
+});
